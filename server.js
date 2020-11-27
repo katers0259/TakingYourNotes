@@ -7,8 +7,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static(path.join('public')));
-require('./routes/apiRoutes')(app)
-require('./routes/htmlroutes')(app)
+
+app.get('./api/notes', function (req, res) {
+  const json = gettingJson()
+    res.json(json);
+  
+})
 
 
 app.get('/notes', function(req,res) {
@@ -20,11 +24,13 @@ res.sendFile(path.join(__dirname, "public/index.html"))
 
 })
 
-app.get('/api/notes', function(req, res) {
-  
-})
 
 
+function gettingJson() {
+  const data = fs.readFileSync(__dirname + '/db/db.json');
+  const json = JSON.parser(data);
+  return json;
+}
 
 
 
